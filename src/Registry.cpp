@@ -60,7 +60,7 @@ char *estrndup(const char *s, uint length) {
 }
 
 char *php_trim(char *c, int len) {
-  register int i;
+  int i;
   int trimmed = 0;
   char mask[256];
   static char maskVal[] = " \n\r\t\v\0";

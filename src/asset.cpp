@@ -81,12 +81,12 @@ bool Asset_Init(void)
     return false;
   }
 
-  assets->icon = IMG_ReadXPMFromArray(icon_xpm);
+  assets->icon = IMG_ReadXPMFromArray(const_cast<char **>(icon_xpm));
   if (NULL == assets->icon) {
     return false;
   }
 
-  assets->font = IMG_ReadXPMFromArray(font_xpm);
+  assets->font = IMG_ReadXPMFromArray(const_cast<char **>(font_xpm));
   if (NULL == assets->font) {
     return false;
   }

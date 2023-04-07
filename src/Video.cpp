@@ -1269,25 +1269,25 @@ SDL_Surface* LoadCharset() {
       (g_Apple2Type == A2TYPE_APPLE2PLUS))
   {
     // character bitmap for II and IIplus
-    tmp = IMG_ReadXPMFromArray(charset40_IIplus_xpm);
+    tmp = IMG_ReadXPMFromArray(const_cast<char **>(charset40_IIplus_xpm));
   }
   else
   {
     switch(g_KeyboardLanguage)
     {
     case English_UK:
-      tmp = IMG_ReadXPMFromArray(charset40_british_xpm);
+      tmp = IMG_ReadXPMFromArray(const_cast<char **>(charset40_british_xpm));
       break;
     case French_FR:
-      tmp = IMG_ReadXPMFromArray(charset40_french_xpm);
+      tmp = IMG_ReadXPMFromArray(const_cast<char **>(charset40_french_xpm));
       break;
     case German_DE:
-      tmp = IMG_ReadXPMFromArray(charset40_german_xpm);
+      tmp = IMG_ReadXPMFromArray(const_cast<char **>(charset40_german_xpm));
       break;
     case English_US: // fall-through
     default:
       // character bitmap for IIe and enhanced
-      tmp = IMG_ReadXPMFromArray(charset40_xpm);
+      tmp = IMG_ReadXPMFromArray(const_cast<char **>(charset40_xpm));
     }
   }
 

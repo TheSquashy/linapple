@@ -45,7 +45,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 // Symbols ________________________________________________________________________________________
 
-	char*     g_sFileNameSymbols[ NUM_SYMBOL_TABLES ] = {
+	const char*     g_sFileNameSymbols[ NUM_SYMBOL_TABLES ] = {
 		 "APPLE2E.SYM"
 		,"A2_BASIC.SYM"
 		,"A2_ASM.SYM"
@@ -58,7 +58,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	};
 	std::string  g_sFileNameSymbolsUser;
 
-	char * g_aSymbolTableNames[ NUM_SYMBOL_TABLES ] =
+	const char * g_aSymbolTableNames[ NUM_SYMBOL_TABLES ] =
 	{
 		 "Main"
 		,"Basic"

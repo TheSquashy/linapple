@@ -1,5 +1,5 @@
 /* XPM */
-static char *charset40_british_xpm[] = {
+static const char *charset40_british_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "128 256 2 1 ",
 "  c black",

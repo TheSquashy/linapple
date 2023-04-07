@@ -89,8 +89,7 @@ target_include_directories(${TARGET_NAME} PRIVATE inc ${SDL_INCLUDE_DIRS} ${SDL_
 target_link_libraries(${TARGET_NAME} PRIVATE ${SDL_LIBRARIES} ${SDL_IMAGE_LIBRARIES} ${CURL_LIBRARIES}
   ${ZLIB_LIBRARIES} ${ZIPLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${X11_LIBRARIES})
 
-#target_compile_options(${TARGET_NAME} PRIVATE -Wall -Werror)
-target_compile_options(${TARGET_NAME} PRIVATE -Wall)
+target_compile_options(${TARGET_NAME} PRIVATE -Wall -Werror)
 
 # Install stuff
 install(TARGETS ${TARGET_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
