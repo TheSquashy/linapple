@@ -28,7 +28,7 @@
 
 #include "../res/font.xpm"
 #include "../res/icon.xpm"
-#include "../build/obj/splash.xpm"
+#include "../res/splash.xpm"
 
 #define ASSET_MASTER_DSK     "Master.dsk"
 
@@ -91,7 +91,7 @@ bool Asset_Init(void)
     return false;
   }
 
-  assets->splash = IMG_ReadXPMFromArray(splash_xpm);
+  assets->splash = IMG_ReadXPMFromArray(const_cast<char **>(splash_xpm));
   if (NULL == assets->splash) {
     return false;
   }
