@@ -20,6 +20,17 @@ development currently resides.
 [maxolasersquad]: https://github.com/maxolasersquad
 [linappleii]: https://github.com/linappleii
 
+Building
+--------
+
+LinApple now uses CMake to build:
+
+```
+mkdir build
+cd build
+cmake ..
+make
+```
 
 Command Line Switches
 ---------------------
