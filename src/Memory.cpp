@@ -617,9 +617,9 @@ void SetMemMode(unsigned int uNewMemMode)
 
 void ResetPaging(bool initialize)
 {
-  lastwriteram = 0;
+  lastwriteram = false;
   memmode = MF_HRAM_BANK2 | MF_SLOTCXROM | MF_HRAM_WRITE;
-  MemUpdatePaging(initialize, 0);
+  MemUpdatePaging(initialize, false);
 }
 
 void MemUpdatePaging(bool initialize, bool updatewriteonly) {
@@ -1078,7 +1078,7 @@ void MemReset() {
   mem = memimage;
 
   // Initialize paging, filling in the 64k memory image
-  ResetPaging(1);
+  ResetPaging(true);
 
   // Initialize & reset the cpu
   // . Do this after ROM has been copied back to mem[], so that PC is correctly init'ed from 6502's reset vector

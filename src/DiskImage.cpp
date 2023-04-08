@@ -100,31 +100,25 @@ unsigned int Woz2Detect(LPBYTE imageptr, unsigned int imagesize);
 void Woz2Read(imageinfoptr ptr, int track, int quartertrack, LPBYTE trackImageBuffer, int *nibbles);
 
 
-typedef struct _imagetyperec {
+struct imagetyperec {
   LPCTSTR createExts;
   LPCTSTR rejectExts;
   detecttype detect;
   boottype boot;
   readtype read;
   writetype write;
-} imagetyperec, *imagetypeptr;
+};
 
-static imagetyperec imagetype[IMAGETYPES] = {{TEXT(".prg"),     TEXT(
-  ".do;.dsk;.iie;.nib;.po"),                                                                      PrgDetect,  PrgBoot, NULL,     NULL},
-                                             {TEXT(".do;.dsk"), TEXT(
-                                               ".nib;.iie;.po;.prg"),                           DoDetect,   NULL,    DoRead,   DoWrite},
-                                             {TEXT(".po"),      TEXT(
-                                               ".do;.iie;.nib;.prg"),                           PoDetect,   NULL,    PoRead,   PoWrite},
-                                             {TEXT(".apl"),     TEXT(
-                                               ".do;.dsk;.iie;.nib;.po"),                       AplDetect,  AplBoot, NULL,     NULL},
-                                             {TEXT(".nib"),     TEXT(
-                                               ".do;.iie;.po;.prg"),                            Nib1Detect, NULL,    Nib1Read, Nib1Write},
-                                             {TEXT(".nb2"),     TEXT(
-                                               ".do;.iie;.po;.prg"),                            Nib2Detect, NULL,    Nib2Read, Nib2Write},
-                                             {TEXT(".iie"),     TEXT(
-                                               ".do.;.nib;.po;.prg"),                           IieDetect,  NULL,    IieRead,  IieWrite},
-                                             {TEXT(".woz"),     TEXT(
-                                     ".do;.dsk;.iie;.nib;.po;.prg"),                            Woz2Detect, NULL,    Woz2Read, NULL}};
+static const imagetyperec imagetype[IMAGETYPES] = {
+    { TEXT(".prg"), TEXT(".do;.dsk;.iie;.nib;.po"), PrgDetect, PrgBoot, NULL, NULL },
+    { TEXT(".do;.dsk"), TEXT(".nib;.iie;.po;.prg"), DoDetect, NULL, DoRead, DoWrite },
+    { TEXT(".po"), TEXT(".do;.iie;.nib;.prg"), PoDetect, NULL, PoRead, PoWrite },
+    { TEXT(".apl"), TEXT(".do;.dsk;.iie;.nib;.po"), AplDetect, AplBoot, NULL, NULL },
+    { TEXT(".nib"), TEXT(".do;.iie;.po;.prg"), Nib1Detect, NULL, Nib1Read, Nib1Write },
+    { TEXT(".nb2"), TEXT(".do;.iie;.po;.prg"), Nib2Detect, NULL, Nib2Read, Nib2Write },
+    { TEXT(".iie"), TEXT(".do.;.nib;.po;.prg"), IieDetect, NULL, IieRead, IieWrite },
+    { TEXT(".woz"), TEXT(".do;.dsk;.iie;.nib;.po;.prg"), Woz2Detect, NULL, Woz2Read, NULL }
+};
 
 static unsigned char diskbyte[0x40] = {0x96, 0x97, 0x9A, 0x9B, 0x9D, 0x9E, 0x9F, 0xA6, 0xA7, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF, 0xB2,
                               0xB3, 0xB4, 0xB5, 0xB6, 0xB7, 0xB9, 0xBA, 0xBB, 0xBC, 0xBD, 0xBE, 0xBF, 0xCB, 0xCD, 0xCE,
@@ -423,10 +417,10 @@ unsigned int DoDetect(LPBYTE imageptr, unsigned int imagesize) {
   // Check for a DOS order image of a DOS diskette
   {
     int loop = 0;
-    bool mismatch = 0;
+    bool mismatch = false;
     while ((loop++ < 15) && !mismatch) {
       if (*(imageptr + 0x11002 + (loop << 8)) != loop - 1) {
-        mismatch = 1;
+        mismatch = true;
       }
     }
     if (!mismatch) {
@@ -437,11 +431,11 @@ unsigned int DoDetect(LPBYTE imageptr, unsigned int imagesize) {
   // Check for a DOS order image of a PRODOS diskette
   {
     int loop = 1;
-    bool mismatch = 0;
+    bool mismatch = false;
     while ((loop++ < 5) && !mismatch) {
       if ((*(LPWORD)(imageptr + (loop << 9) + 0x100) != ((loop == 5) ? 0 : 6 - loop)) ||
           (*(LPWORD)(imageptr + (loop << 9) + 0x102) != ((loop == 2) ? 0 : 8 - loop))) {
-        mismatch = 1;
+        mismatch = true;
       }
     }
     if (!mismatch) {
@@ -912,7 +906,7 @@ int ImageOpen(LPCTSTR imagefilename, HIMAGE *hDiskImage_, bool *pWriteProtected_
     file = fopen(imagefilename, "rb"); // open file just for reading
 
     if (file != INVALID_HANDLE_VALUE)
-      *pWriteProtected_ = 1;
+      *pWriteProtected_ = true;
   }
 
   if ((file == INVALID_HANDLE_VALUE) && bCreateIfNecessary) {
@@ -933,12 +927,12 @@ int ImageOpen(LPCTSTR imagefilename, HIMAGE *hDiskImage_, bool *pWriteProtected_
     imagefileext = _tcsrchr(imagefileext, TEXT('.'));
   }
 
-  #define _MAX_EXT  5
-  char ext[_MAX_EXT];
+  #define MAX_EXT_LEN  5
+  char ext[MAX_EXT_LEN];
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstringop-truncation"
-  _tcsncpy(ext, imagefileext, _MAX_EXT);
+  _tcsncpy(ext, imagefileext, MAX_EXT_LEN);
 #pragma GCC diagnostic pop
 
   CharLowerBuff(ext, _tcslen(ext));
