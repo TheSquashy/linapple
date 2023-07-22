@@ -20,6 +20,8 @@ development currently resides.
 [maxolasersquad]: https://github.com/maxolasersquad
 [linappleii]: https://github.com/linappleii
 
+This fork is a fork of a fork of the main project. The prior fork implemented a CMake Build system and I just fixed some weird compiler problem that noone else seemed to have.
+
 Building
 --------
 
