@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include <string>
-
+#include <cstdint>
 
 struct file_entry_t {
   std::string name;
